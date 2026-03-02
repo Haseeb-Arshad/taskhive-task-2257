@@ -1,0 +1,612 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   CSS Custom Properties — Dark Weather Theme
+───────────────────────────────────────────── */
+:root {
+  /* Core palette */
+  --color-void: #05080f;
+  --color-surface-0: #07101e;
+  --color-surface-1: #0c1a2e;
+  --color-surface-2: #0f2040;
+  --color-border: rgba(148, 163, 184, 0.08);
+  --color-border-accent: rgba(56, 189, 248, 0.15);
+
+  /* Sky accent spectrum */
+  --color-sky-cold: #38bdf8;
+  --color-sky-warm: #7dd3fc;
+  --color-sky-glow: rgba(56, 189, 248, 0.12);
+
+  /* Weather condition colors */
+  --color-sunny: #fbbf24;
+  --color-cloudy: #94a3b8;
+  --color-rainy: #60a5fa;
+  --color-stormy: #a78bfa;
+  --color-snowy: #e2e8f0;
+  --color-foggy: #cbd5e1;
+  --color-hot: #f97316;
+  --color-cold: #93c5fd;
+
+  /* AQI scale colors */
+  --color-aqi-good: #4ade80;
+  --color-aqi-moderate: #facc15;
+  --color-aqi-sensitive: #fb923c;
+  --color-aqi-unhealthy: #f87171;
+  --color-aqi-very-unhealthy: #c084fc;
+  --color-aqi-hazardous: #9f1239;
+
+  /* UV index colors */
+  --color-uv-low: #4ade80;
+  --color-uv-moderate: #facc15;
+  --color-uv-high: #fb923c;
+  --color-uv-very-high: #f87171;
+  --color-uv-extreme: #c084fc;
+
+  /* Typography scale */
+  --font-display-xl: clamp(2.5rem, 6vw, 5rem);
+  --font-display-lg: clamp(1.75rem, 4vw, 3rem);
+  --font-display-md: clamp(1.25rem, 2.5vw, 1.875rem);
+
+  /* Spacing / layout */
+  --header-height: 64px;
+  --sidebar-width: 320px;
+  --max-content-width: 1400px;
+
+  /* Motion */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Blur levels */
+  --blur-glass: blur(16px);
+  --blur-ambient: blur(80px);
+  --blur-heavy: blur(120px);
+}
+
+/* ─────────────────────────────────────────────
+   Base Reset & Document Styles
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-void);
+  color: #e2e8f0;
+  line-height: 1.6;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   Custom Scrollbar — Dark Minimal
+───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.15) transparent;
+}
+
+/* ─────────────────────────────────────────────
+   Utility Layer — Glass, Surfaces, Borders
+───────────────────────────────────────────── */
+@layer utilities {
+  /* Glass morphism surface */
+  .glass {
+    background: rgba(12, 26, 46, 0.6);
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--color-border);
+  }
+
+  .glass-accent {
+    background: rgba(12, 26, 46, 0.7);
+    backdrop-filter: var(--blur-glass);
+    -webkit-backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--color-border-accent);
+    box-shadow:
+      inset 0 1px 0 rgba(56, 189, 248, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Elevated card surface */
+  .surface {
+    background: var(--color-surface-1);
+    border: 1px solid var(--color-border);
+  }
+
+  .surface-raised {
+    background: var(--color-surface-2);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Glow effects */
+  .glow-sky {
+    box-shadow:
+      0 0 20px rgba(56, 189, 248, 0.15),
+      0 0 60px rgba(56, 189, 248, 0.05);
+  }
+
+  .glow-sky-text {
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+  }
+
+  .glow-warm {
+    box-shadow:
+      0 0 20px rgba(251, 191, 36, 0.12),
+      0 0 60px rgba(251, 191, 36, 0.04);
+  }
+
+  /* Gradient text utility */
+  .text-gradient-sky {
+    background: linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #bae6fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #fbbf24 0%, #fb923c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Temperature display */
+  .temp-display {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Monospace data values */
+  .data-mono {
+    font-family: var(--font-geist-mono), 'Courier New', monospace;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum', 'zero';
+  }
+
+  /* Border shimmer animation */
+  .border-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .border-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      rgba(56, 189, 248, 0.06) 50%,
+      transparent 80%
+    );
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Subtle grain texture overlay */
+  .grain::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Weather condition badge backgrounds */
+  .badge-sunny {
+    background: rgba(251, 191, 36, 0.12);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+  }
+
+  .badge-rainy {
+    background: rgba(96, 165, 250, 0.12);
+    color: #93c5fd;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+  }
+
+  .badge-stormy {
+    background: rgba(167, 139, 250, 0.12);
+    color: #c4b5fd;
+    border: 1px solid rgba(167, 139, 250, 0.2);
+  }
+
+  .badge-cloudy {
+    background: rgba(148, 163, 184, 0.1);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+  }
+
+  .badge-snowy {
+    background: rgba(226, 232, 240, 0.1);
+    color: #e2e8f0;
+    border: 1px solid rgba(226, 232, 240, 0.2);
+  }
+
+  /* Focus ring — accessible + on-brand */
+  .focus-ring {
+    outline: none;
+  }
+
+  .focus-ring:focus-visible {
+    outline: 2px solid rgba(56, 189, 248, 0.6);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Component Layer
+───────────────────────────────────────────── */
+@layer components {
+  /* Search input — primary UI element */
+  .search-field {
+    @apply w-full rounded-2xl px-5 py-4 text-base;
+    background: rgba(12, 26, 46, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    color: #e2e8f0;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition:
+      border-color 0.2s var(--ease-smooth),
+      box-shadow 0.2s var(--ease-smooth),
+      background 0.2s var(--ease-smooth);
+    caret-color: #38bdf8;
+  }
+
+  .search-field::placeholder {
+    color: rgba(148, 163, 184, 0.5);
+  }
+
+  .search-field:focus {
+    outline: none;
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(12, 26, 46, 0.95);
+    box-shadow:
+      0 0 0 3px rgba(56, 189, 248, 0.08),
+      0 4px 20px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(56, 189, 248, 0.06);
+  }
+
+  /* Metric card — base weather data tile */
+  .metric-card {
+    @apply rounded-2xl p-5;
+    background: rgba(10, 18, 32, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+    transition:
+      transform 0.2s var(--ease-smooth),
+      border-color 0.2s var(--ease-smooth),
+      box-shadow 0.2s var(--ease-smooth);
+  }
+
+  .metric-card:hover {
+    border-color: rgba(56, 189, 248, 0.15);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(56, 189, 248, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .metric-card:active {
+    transform: scale(0.99) translateY(0);
+  }
+
+  /* Temperature badge */
+  .temp-badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-geist-mono), monospace;
+  }
+
+  /* Section divider */
+  .section-rule {
+    @apply border-0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(148, 163, 184, 0.1) 20%,
+      rgba(56, 189, 248, 0.08) 50%,
+      rgba(148, 163, 184, 0.1) 80%,
+      transparent 100%
+    );
+  }
+
+  /* Skeleton loader shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.06) 0%,
+      rgba(148, 163, 184, 0.12) 50%,
+      rgba(148, 163, 184, 0.06) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.8s ease-in-out infinite;
+    border-radius: 8px;
+  }
+
+  /* Icon container */
+  .icon-wrap {
+    @apply inline-flex items-center justify-center rounded-xl;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.12);
+  }
+
+  /* Pill button */
+  .btn-pill {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium;
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: #7dd3fc;
+    transition:
+      background 0.2s var(--ease-smooth),
+      border-color 0.2s var(--ease-smooth),
+      transform 0.15s var(--ease-spring);
+  }
+
+  .btn-pill:hover {
+    background: rgba(56, 189, 248, 0.18);
+    border-color: rgba(56, 189, 248, 0.35);
+    color: #bae6fd;
+  }
+
+  .btn-pill:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Keyframe Animations
+───────────────────────────────────────────── */
+@keyframes shimmer {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes draw {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes temperature-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.6));
+  }
+}
+
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  20% { opacity: 1; }
+  100% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Animation Utility Classes
+───────────────────────────────────────────── */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s var(--ease-smooth) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s var(--ease-out) both;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.4s var(--ease-smooth) both;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-temperature-glow {
+  animation: temperature-glow 3s ease-in-out infinite;
+}
+
+/* Stagger cascade delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* ─────────────────────────────────────────────
+   Chart & Data Visualization Styles
+───────────────────────────────────────────── */
+.chart-container {
+  position: relative;
+}
+
+.chart-container svg text {
+  fill: rgba(148, 163, 184, 0.7);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+}
+
+.chart-container svg .recharts-cartesian-grid-horizontal line,
+.chart-container svg .recharts-cartesian-grid-vertical line {
+  stroke: rgba(148, 163, 184, 0.06);
+}
+
+.chart-container svg .recharts-tooltip-wrapper {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+}
+
+/* ─────────────────────────────────────────────
+   Responsive Typography
+───────────────────────────────────────────── */
+.display-xl {
+  font-size: var(--font-display-xl);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.display-lg {
+  font-size: var(--font-display-lg);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.display-md {
+  font-size: var(--font-display-md);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+/* ─────────────────────────────────────────────
+   Accessibility
+───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .glass,
+  .glass-accent,
+  .metric-card {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Print styles
+───────────────────────────────────────────── */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .glass,
+  .glass-accent {
+    background: white;
+    border: 1px solid #ccc;
+    backdrop-filter: none;
+  }
+}
