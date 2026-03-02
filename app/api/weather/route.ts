@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getWeatherData } from '@/lib/weatherService';
+import { getWeatherByCity } from '@/lib/weatherService';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const weatherData = await getWeatherData(normalizedCity);
+    const weatherData = await getWeatherByCity(normalizedCity);
 
     if (!weatherData) {
       return NextResponse.json(
