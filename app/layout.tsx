@@ -1,18 +1,16 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 
-const geist = Geist({
+const geist = Inter({
   variable: '--font-geist-sans',
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   display: 'swap',
 });
 
-const geistMono = Geist_Mono({
+const geistMono = Roboto_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
   display: 'swap',
 });
 
@@ -22,17 +20,18 @@ export const metadata: Metadata = {
     'Hyper-local weather analytics with detailed daily and weekly forecasts, air quality, UV index, and real-time atmospheric insights.',
   keywords: ['weather', 'forecast', 'analytics', 'meteorology', 'climate'],
   authors: [{ name: 'Atmosphere' }],
-  themeColor: '#0a0f1e',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    viewportFit: 'cover',
-  },
   openGraph: {
     title: 'Atmosphere — Weather Intelligence',
     description: 'Hyper-local weather analytics with detailed daily and weekly forecasts.',
     type: 'website',
   },
+};
+
+export const viewport = {
+  themeColor: '#0a0f1e',
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({
