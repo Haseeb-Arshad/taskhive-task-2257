@@ -1,13 +1,129 @@
 {
   "project_type": "nextjs",
-  "scaffold_command": "npx create-next-app@latest ./ --typescript --tailwind --eslint --app --no-src-dir --import-alias @/* --yes",
+  "scaffold_command": "npx create-next-app@latest ./ --typescript --tailwind --eslint --app --no-src-dir --import-alias @/* --yes --force",
   "steps": [
     {
       "step_number": 1,
-      "description": "Complete implementation",
-      "commit_message": "feat: complete implementation",
-      "files": []
+      "description": "Configure global layout, fonts, and Tailwind theme with dark sleek styling",
+      "commit_message": "chore: configure layout, global styles and tailwind theme",
+      "files": [
+        {
+          "path": "app/layout.tsx",
+          "description": "Root layout with dark background, font setup, and metadata"
+        },
+        {
+          "path": "app/globals.css",
+          "description": "Global CSS with dark theme variables and custom scrollbar styles"
+        },
+        {
+          "path": "tailwind.config.ts",
+          "description": "Extended Tailwind config with custom colors for weather gradients and dark palette"
+        }
+      ]
+    },
+    {
+      "step_number": 2,
+      "description": "Build the mock weather data service and TypeScript types",
+      "commit_message": "feat: add weather types and mock data service",
+      "files": [
+        {
+          "path": "types/weather.ts",
+          "description": "TypeScript interfaces for CurrentWeather, HourlyForecast, DailyForecast, WeatherAlert, and AirQuality"
+        },
+        {
+          "path": "lib/weatherService.ts",
+          "description": "Mock weather data generator that returns realistic current, hourly, daily, UV index, humidity, wind, and air quality data keyed by city name"
+        },
+        {
+          "path": "lib/weatherUtils.ts",
+          "description": "Utility functions: getWeatherIcon, getWindDirection, formatTime, getAQILabel, getUVIndexLabel"
+        }
+      ]
+    },
+    {
+      "step_number": 3,
+      "description": "Create the API route for fetching weather data",
+      "commit_message": "feat: add weather API route using mock service",
+      "files": [
+        {
+          "path": "app/api/weather/route.ts",
+          "description": "GET API route that accepts a city query param and returns full weather data from the mock service"
+        },
+        {
+          "path": "app/api/weather/suggestions/route.ts",
+          "description": "GET API route that accepts a query param and returns a list of matching city name suggestions"
+        }
+      ]
+    },
+    {
+      "step_number": 4,
+      "description": "Build core UI components for the weather dashboard",
+      "commit_message": "feat: add core weather UI components",
+      "files": [
+        {
+          "path": "components/SearchBar.tsx",
+          "description": "Animated search bar with autocomplete dropdown for city suggestions"
+        },
+        {
+          "path": "components/CurrentWeather.tsx",
+          "description": "Hero card showing temperature, condition icon, feels-like, city name, and date/time"
+        },
+        {
+          "path": "components/HourlyForecast.tsx",
+          "description": "Horizontally scrollable row of hourly temperature and icon cards for the next 24 hours"
+        },
+        {
+          "path": "components/WeeklyForecast.tsx",
+          "description": "7-day forecast list with high/low temps, condition icons, and precipitation probability"
+        },
+        {
+          "path": "components/WeatherMetrics.tsx",
+          "description": "Grid of metric cards: humidity, wind speed/direction, UV index, visibility, pressure, and dew point"
+        }
+      ]
+    },
+    {
+      "step_number": 5,
+      "description": "Build supplemental analytics components and wire the main page",
+      "commit_message": "feat: add analytics panels and compose main dashboard page",
+      "files": [
+        {
+          "path": "components/AirQualityCard.tsx",
+          "description": "Card showing AQI value with color-coded gauge bar and pollutant breakdown"
+        },
+        {
+          "path": "components/SunriseSunset.tsx",
+          "description": "Visual arc diagram showing sunrise, sunset times, and current sun position"
+        },
+        {
+          "path": "components/WeatherAlerts.tsx",
+          "description": "Collapsible alert banner shown when severe weather alerts exist in the data"
+        },
+        {
+          "path": "app/page.tsx",
+          "description": "Main page composing SearchBar, CurrentWeather, HourlyForecast, WeeklyForecast, WeatherMetrics, AirQualityCard, SunriseSunset, and WeatherAlerts with loading skeleton states and error handling"
+        }
+      ]
+    },
+    {
+      "step_number": 6,
+      "description": "Add loading skeletons, error states, and responsive polish",
+      "commit_message": "feat: add skeletons, error states, and responsive layout polish",
+      "files": [
+        {
+          "path": "components/SkeletonLoader.tsx",
+          "description": "Reusable animated skeleton placeholder components for each weather card section"
+        },
+        {
+          "path": "components/ErrorState.tsx",
+          "description": "Friendly error card with retry button shown when weather fetch fails or city not found"
+        },
+        {
+          "path": "hooks/useWeather.ts",
+          "description": "Custom React hook managing weather fetch state, loading, error, and city persistence via localStorage"
+        }
+      ]
     }
   ],
-  "test_command": "echo 'No tests defined'"
+  "test_command": "npm run build"
 }
